@@ -1,0 +1,114 @@
+{
+    "data_range_sheet": {
+        "sheet_name": "Items"
+    },
+    "spending": {
+        "sheet_name": "Spending",
+        "basic_columns": {
+            "date": {
+                "name": "Date"
+            },
+            "currency": {
+                "name": "Currency",
+                "data_range": "Currency"
+            },
+            "bank": {
+                "name": "Bank",
+                "data_range": "Bank"
+            }, 
+            "account": {
+                "name": "Account",
+                "data_range": "Account"
+            }, 
+            "amount": {
+                "name": "Amount"
+            },
+            "category": {
+                "name": "Category",
+                "data_range": "Spending Catagory"
+            }
+        },
+        "optional_columns": {
+            "detail": {
+                "name": "Details"
+            },
+            "note": {
+                "name": "Note"
+            },
+            "credit_card": {
+                "name": "Credit Card Name",
+                "data_range": "Credit Card Name"
+            }
+        }
+    },
+
+    "income": {
+        "sheet_name": "Income",
+        "basic_columns": {
+            "date": {
+                "name": "Date"
+            },
+            "currency": {
+                "name": "Currency",
+                "data_range": "Currency"
+            },
+            "bank": {
+                "name": "Bank",
+                "data_range": "Bank"
+            }, 
+            "account": {
+                "name": "Account",
+                "data_range": "Account"
+            },
+            "amount": {
+                "name": "Amount"
+            },
+            "category": {
+                "name": "Category",
+                "data_range": "Income Catagory"
+            }
+        },
+        "optional_columns": {
+            "detail": {
+                "name": "Details"
+            }
+        }
+    },
+
+    "transfer": {
+        "sheet_name": "Transfer",
+        "basic_columns": {
+            "date": {
+                "name": "Date"
+            },
+            "currency": {
+                "name": "Currency",
+                "data_range": "Currency"
+            },
+            "from_bank": {
+                "name": "FromBank",
+                "data_range": "Bank"
+            }, 
+            "from_account": {
+                "name": "FromAccount",
+                "data_range": "Account"
+            }, 
+            "to_bank": {
+                "name": "ToBank",
+                "data_range": "Bank"
+            }, 
+            "to_account": {
+                "name": "ToAccount",
+                "data_range": "Account"
+            },
+            "amount": {
+                "name": "Amount"
+            }
+        },
+        "optional_columns": {
+            "detail": {
+                "name": "Details"
+            }
+        }
+    }
+}
