@@ -74,16 +74,11 @@
             }
         }
     },
-
     "transfer": {
         "sheet_name": "Transfer",
         "basic_columns": {
             "date": {
                 "name": "Date"
-            },
-            "currency": {
-                "name": "Currency",
-                "data_range": "Currency"
             },
             "from_bank": {
                 "name": "FromBank",
@@ -92,7 +87,14 @@
             "from_account": {
                 "name": "FromAccount",
                 "data_range": "Account"
-            }, 
+            },
+            "from_currency": {
+                "name": "FromCurrency",
+                "data_range": "Currency"
+            },
+            "from_amount": {
+                "name": "FromAmount"
+            },
             "to_bank": {
                 "name": "ToBank",
                 "data_range": "Bank"
@@ -101,13 +103,21 @@
                 "name": "ToAccount",
                 "data_range": "Account"
             },
-            "amount": {
-                "name": "Amount"
+            "to_currency": {
+                "name": "ToCurrency",
+                "data_range": "Currency"
+            },
+            "to_amount": {
+                "name": "ToAmount"
             }
         },
         "optional_columns": {
             "detail": {
                 "name": "Details"
+            },
+            "credit_card": {
+                "name": "Credit Card Name",
+                "data_range": "Credit Card Name"
             }
         }
     }

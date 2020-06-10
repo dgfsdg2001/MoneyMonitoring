@@ -1,6 +1,7 @@
 import unittest
 from account_book.xls_mapping import XlsMapping
 
+
 class TestXlsFormats(unittest.TestCase):
     def setUp(self):
         self
