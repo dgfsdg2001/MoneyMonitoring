@@ -74,40 +74,57 @@
             }
         }
     },
-    "transfer": {
+    "transfer_in": {
         "sheet_name": "Transfer",
         "basic_columns": {
             "date": {
                 "name": "Date"
             },
-            "from_bank": {
+            "bank": {
                 "name": "FromBank",
                 "data_range": "Bank"
             }, 
-            "from_account": {
+            "account": {
                 "name": "FromAccount",
                 "data_range": "Account"
             },
-            "from_currency": {
+            "currency": {
                 "name": "FromCurrency",
                 "data_range": "Currency"
             },
-            "from_amount": {
+            "amount": {
                 "name": "FromAmount"
+            }
+        },
+        "optional_columns": {
+            "detail": {
+                "name": "Details"
             },
-            "to_bank": {
+            "credit_card": {
+                "name": "Credit Card Name",
+                "data_range": "Credit Card Name"
+            }
+        }
+    },
+    "transfer_out": {
+        "sheet_name": "Transfer",
+        "basic_columns": {
+            "date": {
+                "name": "Date"
+            },
+            "bank": {
                 "name": "ToBank",
                 "data_range": "Bank"
             }, 
-            "to_account": {
+            "account": {
                 "name": "ToAccount",
                 "data_range": "Account"
             },
-            "to_currency": {
+            "currency": {
                 "name": "ToCurrency",
                 "data_range": "Currency"
             },
-            "to_amount": {
+            "amount": {
                 "name": "ToAmount"
             }
         },

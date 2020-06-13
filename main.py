@@ -8,4 +8,5 @@ from account_book import AccountBook
 
 if __name__ == '__main__':
     book = AccountBook('MoneyTracking.xlsx')
-    print(book.getBalance())
+    print(book.getBalance(currencies=['USD']))
+    print(book.getBalance(start_time='2020-06-01', currencies=['USD']))
