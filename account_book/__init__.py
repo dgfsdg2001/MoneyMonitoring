@@ -1,19 +1,24 @@
 import xlrd
 import logging
+
 import pandas as pd
-from datetime import datetime
 from account_book.xls_mapping import XlsMapping
+from account_book.utils import to_timestamp
+from account_book.utils import amount_within_period
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
 class AccountBook():
+    DEFAULT_START_TIME = '1900-01-01'
+    DEFAULT_END_TIME = '2200-12-31'
+
     def __init__(self, excel_filepath):
         """
         Constructor of class AccountBook.
 
-        Args: 
+        Args:
             excel_filepath: path to the input xls file.
 
         Raises:
@@ -26,10 +31,11 @@ class AccountBook():
         self.transfer_out = xls_mapping.get_transfer_out()
 
         def get_unique_values(name):
-            return (set(self.spending[name]) | 
-                        set(self.income[name])   |
-                        set(self.transfer_in[name]) | 
-                        set(self.transfer_out[name]))
+            return (
+                set(self.spending[name])
+                | set(self.income[name])
+                | set(self.transfer_in[name])
+                | set(self.transfer_out[name]))
 
         self.currencies = get_unique_values('currency')
         self.banks = get_unique_values('bank')
@@ -38,43 +44,135 @@ class AccountBook():
         self.spending_categories = set(self.spending['category'])
         self.income_categories = set(self.income['category'])
 
-    # TODO: refactor with getIncome(), getSpending(), get_transfer_in() and get_transfer_out()
-    def getBalance(self, start_time=None, end_time=None, currencies: list =[]) -> dict():
+    def get_income(
+            self,
+            start_time: str = DEFAULT_START_TIME,
+            end_time: str = DEFAULT_END_TIME,
+            currencies: list = None) -> dict:
         """
-        Get balance for a set of categories within a given time.
+        Get total income within a given period of time.
 
         Args:
-            start_date: string in ISO formt
-            end_date: string in ISO format
-            currency:
-            category:
+            start_date: datetime string in ISO format
+            end_date: datetime string in ISO format
+            currencies: list of currencies
 
         Returns:
-            dict
-
-        Raises:
+            dict[currency] = total income
         """
-        balances = dict()
-        try:
-            start_time = pd.Timestamp(start_time) if start_time is not None else pd.Timestamp.min 
-            end_time = pd.Timestamp(end_time) if end_time is not None else pd.Timestamp.now()
-            
-        except ValueError or TypeError as e:
-            logger.error('Invalid args: start_time={}, end_time={}'
-                            .format(start_time, end_time))
-            return balances
-        
+        income = dict()
+        currencies = self.currencies if currencies is None else currencies
         for currency in filter(lambda x: x in currencies, self.currencies):
-            def amount_within_range(df):
-                return df.loc[
-                    (start_time <= df['date']) & 
-                    (df['date'] <= end_time) & 
-                    (df['currency'] == currency)]['amount'].sum()
-            
+            income[currency] = amount_within_period(
+                self.income, currency,
+                to_timestamp(start_time), to_timestamp(end_time))
+
+        return income
+
+    def get_spending(
+            self,
+            start_time: str = DEFAULT_START_TIME,
+            end_time: str = DEFAULT_END_TIME,
+            currencies: list = None) -> dict:
+        """
+        Get total spending within a given period of time.
+
+        Args:
+            start_date: datetime string in ISO format
+            end_date: datetime string in ISO format
+            currencies: list of currencies
+
+        Returns:
+            dict[currency] = total spending
+        """
+        spending = dict()
+        currencies = self.currencies if currencies is None else currencies
+        for currency in filter(lambda x: x in currencies, self.currencies):
+            spending[currency] = amount_within_period(
+                self.spending, currency,
+                to_timestamp(start_time), to_timestamp(end_time))
+
+        return spending
+
+    def get_transfer_out(
+            self,
+            start_time: str = DEFAULT_START_TIME,
+            end_time: str = DEFAULT_END_TIME,
+            currencies: list = None) -> dict:
+        """
+        Get total transfer-out within a given period of time.
+
+        Args:
+            start_date: datetime string in ISO format
+            end_date: datetime string in ISO format
+            currencies: list of currencies
+
+        Returns:
+            dict[currency] = total transfer-out
+        """
+        transfer_out = dict()
+        currencies = self.currencies if currencies is None else currencies
+        for currency in filter(lambda x: x in currencies, self.currencies):
+            transfer_out[currency] = amount_within_period(
+                    self.income, currency,
+                    to_timestamp(start_time), to_timestamp(end_time))
+
+        return transfer_out
+
+    def get_transfer_in(
+            self,
+            start_time: str = DEFAULT_START_TIME,
+            end_time: str = DEFAULT_END_TIME,
+            currencies: list = None) -> dict:
+        """
+        Get total transfer-in within a given period of time.
+
+        Args:
+            start_date: datetime string in ISO format
+            end_date: datetime string in ISO format
+            currencies: list of currencies
+
+        Returns:
+            dict[currency] = total transfer-in
+        """
+        transfer_in = dict()
+        currencies = self.currencies if currencies is None else currencies
+        for currency in filter(lambda x: x in currencies, self.currencies):
+            transfer_in[currency] = amount_within_period(
+                self.income, currency,
+                to_timestamp(start_time), to_timestamp(end_time))
+
+        return transfer_in
+
+    def get_balance(
+            self,
+            start_time: str = DEFAULT_START_TIME,
+            end_time: str = DEFAULT_END_TIME,
+            currencies: list = None) -> dict():
+        """
+        Get total balance within a given period of time.
+
+        Args:
+            start_date: datetime string in ISO format
+            end_date: datetime string in ISO format
+            currencies: list of currencies
+
+        Returns:
+            dict[currency] = balance
+        """
+
+        balances = dict()
+        income = self.get_income(start_time, end_time, currencies)
+        spending = self.get_spending(start_time, end_time, currencies)
+        transfer_in = self.get_transfer_in(start_time, end_time, currencies)
+        transfer_out = self.get_transfer_in(start_time, end_time, currencies)
+
+        currencies = self.currencies if currencies is None else currencies
+        for currency in filter(lambda x: x in currencies, self.currencies):
             balances[currency] = (
-                amount_within_range(self.income) + 
-                amount_within_range(self.transfer_in) +
-                amount_within_range(self.spending) -
-                amount_within_range(self.transfer_out))
+                income.get(currency, 0)
+                + transfer_in.get(currency, 0)
+                - spending.get(currency, 0)
+                - transfer_out.get(currency, 0))
 
         return balances

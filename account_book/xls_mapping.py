@@ -73,11 +73,10 @@ class XlsMapping():
         return self.get_df(
             mapping=self.mappings['transfer_in'],
             bc_list=[
-                'date','bank', 'account', 'currency', 'amount'])
-    
+                'date', 'bank', 'account', 'currency', 'amount'])
+
     def get_transfer_out(self) -> pd.DataFrame:
         return self.get_df(
             mapping=self.mappings['transfer_out'],
             bc_list=[
-                'date','bank', 'account', 'currency', 'amount'])
-    
+                'date', 'bank', 'account', 'currency', 'amount'])
