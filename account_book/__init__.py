@@ -3,8 +3,7 @@ import logging
 
 import pandas as pd
 from account_book.xls_mapping import XlsMapping
-from account_book.utils import to_timestamp
-from account_book.utils import amount_within_period
+from account_book.utils import to_timestamp, amount_within_period
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)

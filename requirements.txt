@@ -1,2 +1,4 @@
 pandas >= 1.0.4
 xlrd >= 1.2.0
+PyQt5 >= 5.15.0
+matplotlib >= 3.2.1
