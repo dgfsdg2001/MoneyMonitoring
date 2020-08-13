@@ -28,4 +28,7 @@ class LayoutTop(QGridLayout):
             self.addWidget(self.lables[key]['title'], row, 0)
             self.addWidget(self.lables[key]['value'], row, 1)
             row += 1
+    
+    def update_data(self):
+        print("layout_top.py")
 

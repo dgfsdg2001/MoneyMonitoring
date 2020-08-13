@@ -1,6 +1,18 @@
 
 # Example unittest org
-python.exe -m unittest account_book/test/test_read_sheets.py
+python.exe -m unittest discover -s "account_book/test" -p "test_*.py"
 
 # Checkcode
 pycodestyle --show-soruce account_book
+
+
+```
+-------------------------------
+| toolbar                     |
+------------------------------|
+| layout Top                  |
+-------------------------------
+| layout left  | layout right |
+|              |              |
+-------------------------------
+```

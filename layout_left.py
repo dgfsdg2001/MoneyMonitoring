@@ -18,3 +18,6 @@ class LayoutLeft(QVBoxLayout):
         # df.plot.pie(y='mass', ax=sc.axes)
         df.plot.pie(subplots=True, ax=self.plot.axes)
         self.addWidget(self.plot)
+
+    def update_data(self):
+        print("layout_left.py")

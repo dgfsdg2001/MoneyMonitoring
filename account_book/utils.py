@@ -18,9 +18,8 @@ def to_timestamp(str: str) -> pd.Timestamp:
     """
     try:
         return pd.Timestamp(str)
-    except TypeError or ValueError as e:
-        logger.warn(
-            e, ", unexpected time string {}, return currecnt time".format(str))
+    except (TypeError, ValueError) as e:
+        logger.warning("{}, return currecnt time".format(e))
         return pd.Timestamp.now()
 
 

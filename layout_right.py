@@ -28,8 +28,7 @@ class LayoutRight(QVBoxLayout):
 
         self.btn_query = QPushButton("Query")
         self.btn_query.setFixedSize(self.btn_query.sizeHint())
-        self.btn_query.clicked.connect(
-            lambda: self.query_btn_clicked(self.btn_query))
+        self.btn_query.clicked.connect(parent.update_data)
 
         self.addWidget(self.query["date"]["start"]["title"])
         self.addWidget(self.query["date"]["start"]["value"])
@@ -52,5 +51,5 @@ class LayoutRight(QVBoxLayout):
         self.addWidget(QLabel("Details:"))
         self.addWidget(tree_view)
 
-    def query_btn_clicked(self, btn):
-        print(btn.text())
+    def update_data(self):
+        print("layout_right.py")
