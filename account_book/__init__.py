@@ -26,15 +26,15 @@ class AccountBook():
         xls_mapping = XlsMapping(xlrd.open_workbook(excel_filepath))
         self.spending = xls_mapping.get_spending()
         self.income = xls_mapping.get_income()
-        self.transfer_in = xls_mapping.get_transfer_in()
-        self.transfer_out = xls_mapping.get_transfer_out()
+        self.transfer_from = xls_mapping.get_transfer_in()
+        self.transfer_to = xls_mapping.get_transfer_out()
 
         def get_unique_values(name):
             return (
                 set(self.spending[name])
                 | set(self.income[name])
-                | set(self.transfer_in[name])
-                | set(self.transfer_out[name]))
+                | set(self.transfer_from[name])
+                | set(self.transfer_to[name]))
 
         self.currencies = get_unique_values('currency')
         self.banks = get_unique_values('bank')
